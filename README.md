@@ -8,17 +8,12 @@ architecture, security patterns, and automation for modern Microsoft cloud ident
 
 This repository serves as a complete knowledge and tooling platform for:
 
-Microsoft Entra ID
-
-Identity Governance (IG)
-
-Zero Trust Architecture
-
-Intune Automation & Modern Endpoint
-
-Graph API Security Automation
-
-Baselines, Guardrails, and Architecture Patterns
+- Microsoft Entra ID
+- Identity Governance (IG)
+- Zero Trust Architecture
+- Intune Automation & Modern Endpoint
+- Graph API Security Automation
+- Baselines, Guardrails, and Architecture Patterns
 
 Designed for architects, engineers, consultants, and security teams who want to operate identity and endpoint environments at scale, securely, and with automation-first principles.
 
@@ -48,15 +43,11 @@ Explore the content:
 
 Everything needed to automate and scale endpoint management:
 
-Win32 packaging framework
-
-Detection & remediation collection
-
-Compliance automation
-
-Intune Graph tools
-
-Autopilot utilities
+- Win32 packaging framework
+- Detection & remediation collection
+- Compliance automation
+- Intune Graph tools
+- Autopilot utilities
 
 Explore:
 ➡️ /intune-automation/
@@ -65,13 +56,10 @@ Explore:
 
 A full Zero Trust stack with:
 
-Blueprint & reference models
-
-Guardrail collections
-
-KPI & maturity scoring
-
-Implementation path (Beginner → Enterprise)
+- Blueprint & reference models
+- Guardrail collections
+- KPI & maturity scoring
+- Implementation path (Beginner → Enterprise)
 
 Explore:
 ➡️ /zero-trust/
@@ -80,15 +68,11 @@ Explore:
 
 Automation-first identity security:
 
-Entra tenant exporter
-
-Role & permission inventory
-
-CA policy documentation generator
-
-Intune config-as-code foundations
-
-Reporting + posture analysis tools
+- Entra tenant exporter
+- Role & permission inventory
+- CA policy documentation generator
+- Intune config-as-code foundations
+- Reporting + posture analysis tools
 
 Explore:
 ➡️ /graph-api/
@@ -97,15 +81,11 @@ Explore:
 
 Production-ready starter packs:
 
-Entra ID Hardening Pack
-
-Identity Lifecycle (JML) Kit
-
-Zero Trust Guardrails Pack
-
-Security Starter Packs
-
-Intune Deployment Tooling
+- Entra ID Hardening Pack
+- Identity Lifecycle (JML) Kit
+- Zero Trust Guardrails Pack
+- Security Starter Packs
+- Intune Deployment Tooling
 
 Explore:
 ➡️ /accelerators/
@@ -114,15 +94,11 @@ Explore:
 
 Practical labs anyone can run:
 
-Zero Trust in 30 minutes
-
-Harden a Windows 11 device
-
-Deploy a secure CA baseline
-
-Identity Governance quickstart
-
-Graph API automation workouts
+- Zero Trust in 30 minutes
+- Harden a Windows 11 device
+- Deploy a secure CA baseline
+- Identity Governance quickstart
+- Graph API automation workouts
 
 Explore:
 ➡️ /labs/
@@ -131,22 +107,18 @@ Explore:
 
 Includes:
 
-Architecture diagrams
-
-Implementation guides
-
-Governance frameworks
-
-Cheat sheets
-
-Security patterns
+- Architecture diagrams
+- Implementation guides
+- Governance frameworks
+- Cheat sheets
+- Security patterns
 
 Explore:
 ➡️ /docs/
 
 💼 About Me
 
-Ramon Lotz
+Ramón Lotz
 Identity & Cloud Security Architect
 Founder – Access Insights
 
