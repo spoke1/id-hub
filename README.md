@@ -1,131 +1,159 @@
-# Identity Secure Hub
-Architecture • Automation • Zero Trust • Entra ID • Intune
+Identity Secure Hub
+Modern Identity, Zero Trust & Endpoint Security – Architecture • Automation • Governance
+<p align="center"> <img src="https://img.shields.io/badge/Entra_ID-Identity_Security-blue?style=for-the-badge" /> <img src="https://img.shields.io/badge/Intune-Modern_Endpoint-blueviolet?style=for-the-badge" /> <img src="https://img.shields.io/badge/Zero_Trust-Architecture-orange?style=for-the-badge" /> <img src="https://img.shields.io/badge/PowerShell-Automation-teal?style=for-the-badge" /> <img src="https://img.shields.io/badge/Graph_API-Integration-yellow?style=for-the-badge" /> </p>
+🚀 Overview
 
-Willkommen zum Identity Secure Hub — meinem zentralen, offenen Architektur- & Automationsportfolio für Microsoft Entra ID, Modern Endpoint, Identity Governance und Zero Trust Security.
+Identity Secure Hub is my flagship open-source portfolio that brings together
+architecture, security patterns, and automation for modern Microsoft cloud identity.
 
-Dieses Projekt vereint:
+This repository serves as a complete knowledge and tooling platform for:
 
-Architecture Patterns & Best Practices
+Microsoft Entra ID
 
-Security Baselines & Guardrails
+Identity Governance (IG)
 
-Graph API Automation Tools
+Zero Trust Architecture
 
-Intune Deployment & Remediation Kits
+Intune Automation & Modern Endpoint
 
-Zero Trust Blueprints & KPI Models
+Graph API Security Automation
 
-Hands-on Labs & Implementation Guides
+Baselines, Guardrails, and Architecture Patterns
 
-Alles basiert auf echten Projekten, realen Kundenanforderungen und produktionsreifen Security-Standards.
+Designed for architects, engineers, consultants, and security teams who want to operate identity and endpoint environments at scale, securely, and with automation-first principles.
 
-## 🚀 Purpose
+🧭 Repository Structure
+identity-baselines/       → Baselines, Conditional Access, Governance, Controls
+intune-automation/        → App packaging, remediation, automation frameworks
+graph-api/                → Entra & Intune automation via Microsoft Graph
+zero-trust/               → Blueprints, guardrails, KPIs, architecture models
+accelerators/             → Ready-to-deploy security & identity starter packs
+docs/                     → Architecture diagrams, cheat sheets & notes
+labs/                     → Hands-on labs, workshops, rapid exercises
 
-Identity Secure Hub unterstützt dich dabei:
+🔐 Identity & Access (Entra ID)
 
-Entra ID sicher und skalierbar zu betreiben
+Key focus areas:
 
-Intune Deployments effizient zu automatisieren
+Area	Description
+Conditional Access	Baselines, policy packs, secure-by-default templates
+Governance	EM templates, Access Review workflows, lifecycle automation
+Security Controls	Risk-based controls, identity protection & monitoring
+Privileged Access	PAW/SAW concepts, PIM automation, access guardrails
 
-Zero Trust praktisch – nicht theoretisch – anzuwenden
+Explore the content:
+➡️ /identity-baselines/
 
-Identity Governance produktiv aufzubauen
+💻 Intune Automation & Modern Endpoint
 
-Security Controls nach Microsoft Standards zu orchestrieren
+Everything needed to automate and scale endpoint management:
 
-Dieses Repo ist dein Startpunkt, wenn du verstehen willst, wie moderne Microsoft Security Architektur wirklich funktioniert.
+Win32 packaging framework
 
-## 🧭 Repository Structure
-/identity-baselines           → CA templates, governance, security checks
-/intune-automation            → packaging, deployment, remediation, tools
-/graph-api                    → scripts for Entra, Intune, CA, Roles
-/zero-trust                   → blueprints, guardrails, kpis
-/accelerators                 → ready-to-deploy starter kits
-/docs                         → diagrams, cheat sheets, architecture notes
-/labs                         → hands-on labs, challenges, workshops
+Detection & remediation collection
 
-## 🛡 Key Topics
-🔐 Identity & Access
+Compliance automation
 
-Conditional Access Baselines
+Intune Graph tools
 
-Risk-based Authentication
+Autopilot utilities
 
-Identity Protection Automation
+Explore:
+➡️ /intune-automation/
 
-Governance Workflows (EM, Reviews, JML)
+🎯 Zero Trust Architecture
 
-💻 Modern Endpoint (Intune)
+A full Zero Trust stack with:
 
-Win32 Packaging
+Blueprint & reference models
 
-Detection & Remediation Catalog
+Guardrail collections
 
-Compliance Automation
+KPI & maturity scoring
 
-Autopilot Tools
+Implementation path (Beginner → Enterprise)
 
-🎯 Zero Trust
+Explore:
+➡️ /zero-trust/
 
-Architecture Model
+⚙️ Microsoft Graph API Tooling
 
-KPI & Scoring Framework
+Automation-first identity security:
 
-Guardrails for Identity, Device, Network
+Entra tenant exporter
 
-Practical Implementation Paths
+Role & permission inventory
 
-⚙️ Automation (Graph API)
+CA policy documentation generator
 
-Tenant Exports
+Intune config-as-code foundations
 
-Role & Permission Checks
+Reporting + posture analysis tools
 
-CA Policy Documentation
+Explore:
+➡️ /graph-api/
 
-Intune Configuration-as-Code
+📦 Accelerators
 
-## 📦 Accelerators Included
+Production-ready starter packs:
 
 Entra ID Hardening Pack
 
-Identity Lifecycle Kit (JML toolkit)
+Identity Lifecycle (JML) Kit
 
-Zero Trust Guardrail Pack
+Zero Trust Guardrails Pack
 
-Intune Deployment Toolkit
+Security Starter Packs
 
-Security Posture Analyzer (Graph API)
+Intune Deployment Tooling
 
-## 🧪 Hands-on Labs
+Explore:
+➡️ /accelerators/
 
-Alle Labs in /labs sind:
+🧪 Hands-On Labs
 
-Kurz, fokussiert und praxisorientiert
+Practical labs anyone can run:
 
-Für Architekten & IT Pros geeignet
+Zero Trust in 30 minutes
 
-Mit Scripts, Steps, Diagrams und Expected Outcomes
+Harden a Windows 11 device
 
-## 🔮 Roadmap (2025)
+Deploy a secure CA baseline
 
- Access Insights Workshop Series
+Identity Governance quickstart
 
- Full Intune Automation Framework
+Graph API automation workouts
 
- Identity Governance Starter Pack V2
+Explore:
+➡️ /labs/
 
- Zero Trust KPI Dashboard
+📚 Documentation & Architecture Notes
 
- Entra ID Continuous Monitoring Scripts
+Includes:
 
-## 💼 About Me
+Architecture diagrams
 
-Ramon Lotz – Identity & Cloud Security Architect
+Implementation guides
+
+Governance frameworks
+
+Cheat sheets
+
+Security patterns
+
+Explore:
+➡️ /docs/
+
+💼 About Me
+
+Ramon Lotz
+Identity & Cloud Security Architect
 Founder – Access Insights
-Focus: Entra ID • Zero Trust • Identity Governance • Modern Endpoint • Automation
 
-## ⭐ Support This Project
+Focus Areas:
+Entra ID • Zero Trust • Identity Governance • Intune • Graph API Automation
 
-Wenn dir dieses Projekt hilft:
-ein Star ⭐ auf GitHub hilft enorm und unterstützt den weiteren Ausbau.
+⭐ Support
+
+If this project helps you:
+Please give it a Star ⭐ on GitHub — it helps a lot.
