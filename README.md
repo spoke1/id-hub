@@ -12,7 +12,7 @@
 
 ---
 
-## 🚀 Overview
+## Overview
 
 **Identity Secure Hub** is my flagship open-source portfolio for everything related to modern Microsoft Identity & Security.
 
@@ -30,7 +30,7 @@ It is designed for professionals who want to operate Microsoft cloud identity **
 
 ---
 
-## 🧭 Repository Structure
+## Repository Structure
 
 ```
 identity-baselines/       → Baselines, Conditional Access, Governance, Controls
@@ -44,7 +44,7 @@ labs/                     → Hands-on labs, workshops, rapid exercises
 
 ---
 
-# 🔐 Identity Architecture (Entra ID)
+# Identity Architecture (Entra ID)
 
 Key focus topics:
 
@@ -60,7 +60,7 @@ Explore:
 
 ---
 
-# 💻 Modern Endpoint Security (Intune)
+# Modern Endpoint Security (Intune)
 
 This section supports enterprise-scale endpoint automation:
 
@@ -75,7 +75,7 @@ Explore:
 
 ---
 
-# 🎯 Zero Trust Framework
+# Zero Trust Framework
 
 A complete collection of Zero Trust tools:
 
@@ -90,7 +90,7 @@ Explore:
 
 ---
 
-# ⚙️ Microsoft Graph API Automation
+# Microsoft Graph API Automation
 
 Scripts & tools to automate everything identity-related:
 
@@ -105,7 +105,7 @@ Explore:
 
 ---
 
-# 📦 Accelerators (Starter Kits)
+# Accelerators (Starter Kits)
 
 Deploy-ready security packs:
 
@@ -120,7 +120,7 @@ Explore:
 
 ---
 
-# 🧪 Hands-on Labs
+# Hands-on Labs
 
 Hands-on learning for architecture & engineering:
 
@@ -135,7 +135,7 @@ Explore:
 
 ---
 
-# 📚 Documentation & Architecture Notes
+# Documentation & Architecture Notes
 
 A full documentation library:
 
@@ -151,7 +151,7 @@ Explore:
 
 ---
 
-# 🎓 Who This Is For
+# Who This Is For
 
 This hub exists for:
 
@@ -164,7 +164,7 @@ This hub exists for:
 
 ---
 
-# 💼 About Me
+# About Me
 
 **Ramon Lotz**
 *Identity & Cloud Security Architect*
@@ -176,16 +176,16 @@ I build secure-by-design identity architectures and help teams scale with automa
 
 ---
 
-# ⭐ Support
+# Support
 
 If this project helps you:
 **Please star ⭐ the repository. It really helps support future work.**
 
 ---
 
-# 📬 Contact
+# Contact
 
-For consulting, collaboration or questions:
+For collaboration or questions:
 
 **Website:** [access-insights.com](https://access-insights.com/) (Access Insights)
 **LinkedIn:** [https://linkedin.com/in/ramonlotz](https://linkedin.com/in/ramonlotz)
