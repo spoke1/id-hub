@@ -1,60 +1,29 @@
-# Identity Security Controls  
-### Technical security foundations beyond Conditional Access
+# Identity security controls
 
-This section defines **identity-related security controls** that complement Conditional Access and Governance.
+Conditional Access decides *whether* a sign-in is allowed. The controls in this section make sure the identities behind those sign-ins are protected: emergency access, privileged access, authentication methods, application consent, detection and logging.
 
-While Conditional Access enforces *access decisions*, these controls ensure that:
-- identities are protected,
-- privileged access is controlled,
-- risks are detected early,
-- and emergency access is handled safely.
+## Levels
 
----
+| Level | Focus | Document |
+|---|---|---|
+| **1 · Foundation** | Emergency access, privileged role inventory, authentication methods policy, consent settings, log retention | [security-level-1.md](security-level-1.md) |
+| **2 · Hardened** | PIM for all privileged roles, risk policies in Conditional Access, passkey rollout, alerting on break-glass use, application credential hygiene | [security-level-2.md](security-level-2.md) |
+| **3 · Zero Trust** | Zero standing privilege, passwordless-first, SIEM detections for identity attacks, governance of workload identities | [security-level-3.md](security-level-3.md) |
 
-## 🎯 Purpose
+Align the levels with the [Conditional Access baselines](../conditional-access/README.md): security controls Level 2 is a prerequisite for Conditional Access Level 3 (phishing-resistant admins need registered methods and PIM).
 
-Identity Security Controls focus on:
+## Scope
 
-- Identity Protection & risk signals  
-- Privileged Identity Management (PIM)  
-- Break-glass strategies  
-- Authentication hygiene (MFA / passwordless)  
-- Monitoring, logging & alerting  
+Included:
 
-They provide the **technical backbone** of a Zero Trust identity architecture.
+- Emergency access (break-glass) accounts
+- Privileged Identity Management (PIM) and role hygiene
+- Authentication methods policy and passwordless adoption
+- User and admin consent for applications
+- Credentials of applications and service principals
+- Logging, alerting and detection
 
----
+Not included:
 
-## 🧱 Security Levels
-
-| Level | Description | File |
-|------|-------------|------|
-| **Level 1 – Foundational Security** | Basic protection, visibility & emergency access | [`security-level-1.md`](security-level-1.md) |
-| **Level 2 – Hardened Security** | Strong privileged access controls & identity protection | [`security-level-2.md`](security-level-2.md) |
-| **Level 3 – Zero Trust Security** | Continuous evaluation, passwordless-first, SIEM-driven | [`security-level-3.md`](security-level-3.md) |
-
----
-
-## 🧩 Scope of This Section
-
-Included topics:
-
-- Identity Protection configuration  
-- Privileged Identity Management (PIM)  
-- Authentication method governance  
-- Break-glass account patterns  
-- Monitoring & alerting  
-
-Not included here:
-- Conditional Access policies (see `conditional-access/`)  
-- Identity lifecycle governance (see `governance/`)  
-
----
-
-## 🚀 How to Use
-
-1. Implement **Level 1** immediately  
-2. Align **Level 2** with Conditional Access Level 2  
-3. Use **Level 3** for Zero Trust programs and regulated environments  
-
-Each level builds on the previous one.
+- Conditional Access policies: [conditional-access/](../conditional-access/README.md)
+- Identity lifecycle and access governance: [governance/](../governance/README.md)

@@ -1,72 +1,77 @@
-# Conditional Access Baseline – Level 1 (Baseline Security)
+# Conditional Access baseline · Level 1 · Foundation
 
-This baseline provides a **secure-by-default foundation** for all Microsoft Entra ID tenants.  
-It focuses on blocking legacy protocols, enforcing MFA for admins, and protecting core workloads without breaking user productivity.
+Level 1 closes the attack paths that cause most identity compromises: legacy protocols that bypass MFA, unprotected admin accounts and password-only access to email and files. User impact is low, so this level fits every tenant as a starting point.
 
----
-
-## 🎯 Objectives
-
-- Remove high-risk authentication methods  
-- Protect administrators from common attack vectors  
-- Apply MFA to sensitive workloads  
-- Ensure a minimum level of identity hygiene  
-- Keep user friction low while raising security significantly  
+Prerequisites: Entra ID P1 (CA105: P2), two emergency access accounts in the break-glass group, users registered for MFA.
 
 ---
 
-# 🧱 Included Policies (Level 1)
+## CA101 · Block legacy authentication
 
-## 🔹 1. Block Legacy Authentication  
-**Objective:** Disable all basic auth protocols that bypass MFA.  
-**Applies to:** All users  
-**Exclusions:** Service accounts (if absolutely necessary)  
+| | |
+|---|---|
+| Users | All users, except break-glass |
+| Applications | All |
+| Condition | Client apps: Exchange ActiveSync clients, other clients |
+| Grant | Block |
+| Template | [`CA101-AllUsers-AllApps-BlockLegacyAuthentication.json`](policies/level-1/CA101-AllUsers-AllApps-BlockLegacyAuthentication.json) |
 
-**Recommended settings:**  
-- Client Apps → Exclude legacy protocols  
-- Grant → Block access  
+Legacy protocols (POP, IMAP, SMTP AUTH, older Office clients, basic-auth ActiveSync) cannot perform MFA. Password spray attacks target them for exactly that reason. Check the report-only results for devices such as printers or scanners that still send mail with SMTP AUTH; move them to a connector or a dedicated relay instead of excluding users.
+
+## CA102 · Admins require MFA
+
+| | |
+|---|---|
+| Users | 18 privileged directory roles, except break-glass |
+| Applications | All |
+| Grant | Authentication strength *Multifactor authentication* |
+| Template | [`CA102-Admins-AllApps-RequireMFA.json`](policies/level-1/CA102-Admins-AllApps-RequireMFA.json) |
+
+Every sign-in of an active admin role requires MFA, for every application. Level 3 (CA301) tightens this to phishing-resistant methods.
+
+## CA103 · Admin portals require MFA
+
+| | |
+|---|---|
+| Users | All users, except break-glass |
+| Applications | Microsoft Admin Portals |
+| Grant | Authentication strength *Multifactor authentication* |
+| Template | [`CA103-AllUsers-AdminPortals-RequireMFA.json`](policies/level-1/CA103-AllUsers-AdminPortals-RequireMFA.json) |
+
+Covers users who have delegated admin rights without a directory role, for example through Azure RBAC, Exchange or Intune RBAC. Microsoft enforces MFA for the Azure and admin portals on its side as well; this policy makes the requirement explicit and visible in your own policy set.
+
+## CA104 · Microsoft 365 requires MFA
+
+| | |
+|---|---|
+| Users | All users, except break-glass |
+| Applications | Office 365 (Exchange Online, SharePoint Online, Teams and related services) |
+| Grant | Authentication strength *Multifactor authentication* |
+| Template | [`CA104-AllUsers-Office365-RequireMFA.json`](policies/level-1/CA104-AllUsers-Office365-RequireMFA.json) |
+
+Protects mail, files and chat, where most business data lives. Level 2 (CA201) extends MFA to all applications.
+
+## CA105 · High sign-in risk requires MFA
+
+| | |
+|---|---|
+| Users | All users, except break-glass |
+| Applications | All |
+| Condition | Sign-in risk: high |
+| Grant | Authentication strength *Multifactor authentication* |
+| Session | Sign-in frequency: every time |
+| Template | [`CA105-AllUsers-AllApps-RequireMFA-HighSignInRisk.json`](policies/level-1/CA105-AllUsers-AllApps-RequireMFA-HighSignInRisk.json) |
+| Licence | Entra ID P2 |
+
+A successful MFA challenge remediates the sign-in risk. *Every time* ensures the user is challenged for each risky sign-in, not only once per session. Level 3 (CA303) blocks high-risk sign-ins instead.
 
 ---
 
-## 🔹 2. Require MFA for Administrators  
-**Objective:** Protect privileged roles from credential-based attacks.  
-**Scope:** All built-in admin roles  
+## Rollout
 
-**Recommended controls:**  
-- Require multifactor authentication  
-- Require password change on risk detection  
+1. Import in report-only mode and wait one to two weeks.
+2. Analyse the report-only impact per policy. Start with CA102 and CA103 (admins, low volume), then CA101, CA104 and CA105.
+3. Enable one policy at a time and watch the sign-in logs for failures (`conditionalAccessStatus = failure`).
+4. Document every exclusion with owner, reason and review date.
 
----
-
-## 🔹 3. Require MFA for High-Risk Sign-ins (if licensed)  
-**Objective:** Stop compromised accounts early.  
-**Scope:** All users  
-**Action:** Block or require MFA depending on organization maturity  
-
----
-
-## 🔹 4. Require MFA for Key Cloud Apps  
-**Apps included:**  
-- Exchange Online  
-- SharePoint Online  
-- Teams  
-- Microsoft Admin centers  
-
----
-
-## 🔹 5. Break-Glass Account Configuration  
-**Goal:** Ensure emergency access under CA enforcement  
-- Exclude from all CA policies  
-- Strong password + password vault  
-- Monitor for unexpected sign-ins  
-
----
-
-# 📘 Deployment Guidance
-
-1. Deploy policies in **Report-only** first  
-2. Validate sign-in logs  
-3. Pilot with IT/Admin groups  
-4. Enforce after approval  
-
-This level is appropriate for **all** tenants and should be implemented before rolling out Level 2.
+Continue with [Level 2](baseline-level-2.md).
