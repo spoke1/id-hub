@@ -1,0 +1,18 @@
+# Script output (contains tenant data)
+out/
+*.csv
+
+# Local credentials and certificates (never commit)
+*.pfx
+*.pem
+*.key
+*.cer
+.env
+*.local.ps1
+*.local.json
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
