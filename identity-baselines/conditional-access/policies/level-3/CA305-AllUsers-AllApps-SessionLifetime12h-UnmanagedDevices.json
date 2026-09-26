@@ -1,0 +1,40 @@
+{
+  "displayName": "CA305-AllUsers-AllApps-SessionLifetime12h-UnmanagedDevices",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "users": {
+      "includeUsers": [
+        "All"
+      ],
+      "excludeGroups": [
+        "{{BREAK_GLASS_GROUP_ID}}"
+      ]
+    },
+    "applications": {
+      "includeApplications": [
+        "All"
+      ]
+    },
+    "clientAppTypes": [
+      "all"
+    ],
+    "devices": {
+      "deviceFilter": {
+        "mode": "include",
+        "rule": "device.isCompliant -ne True -and device.trustType -ne \"ServerAD\""
+      }
+    }
+  },
+  "sessionControls": {
+    "signInFrequency": {
+      "isEnabled": true,
+      "type": "hours",
+      "value": 12,
+      "frequencyInterval": "timeBased"
+    },
+    "persistentBrowser": {
+      "isEnabled": true,
+      "mode": "never"
+    }
+  }
+}

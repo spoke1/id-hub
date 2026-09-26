@@ -1,0 +1,38 @@
+{
+  "displayName": "CA302-Members-AllApps-RequireCompliantOrHybridDeviceOnDesktop",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "users": {
+      "includeUsers": [
+        "All"
+      ],
+      "excludeGroups": [
+        "{{BREAK_GLASS_GROUP_ID}}"
+      ],
+      "excludeUsers": [
+        "GuestsOrExternalUsers"
+      ]
+    },
+    "applications": {
+      "includeApplications": [
+        "All"
+      ]
+    },
+    "clientAppTypes": [
+      "all"
+    ],
+    "platforms": {
+      "includePlatforms": [
+        "windows",
+        "macOS"
+      ]
+    }
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": [
+      "compliantDevice",
+      "domainJoinedDevice"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "displayName": "CA208-AllUsers-Office365-RequireAppProtectionOnMobile",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "users": {
+      "includeUsers": [
+        "All"
+      ],
+      "excludeGroups": [
+        "{{BREAK_GLASS_GROUP_ID}}"
+      ]
+    },
+    "applications": {
+      "includeApplications": [
+        "Office365"
+      ]
+    },
+    "clientAppTypes": [
+      "all"
+    ],
+    "platforms": {
+      "includePlatforms": [
+        "android",
+        "iOS"
+      ]
+    }
+  },
+  "grantControls": {
+    "operator": "OR",
+    "builtInControls": [
+      "compliantApplication"
+    ]
+  }
+}

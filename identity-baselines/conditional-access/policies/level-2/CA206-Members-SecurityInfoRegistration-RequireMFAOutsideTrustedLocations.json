@@ -1,0 +1,39 @@
+{
+  "displayName": "CA206-Members-SecurityInfoRegistration-RequireMFAOutsideTrustedLocations",
+  "state": "enabledForReportingButNotEnforced",
+  "conditions": {
+    "users": {
+      "includeUsers": [
+        "All"
+      ],
+      "excludeGroups": [
+        "{{BREAK_GLASS_GROUP_ID}}"
+      ],
+      "excludeUsers": [
+        "GuestsOrExternalUsers"
+      ]
+    },
+    "applications": {
+      "includeUserActions": [
+        "urn:user:registersecurityinfo"
+      ]
+    },
+    "clientAppTypes": [
+      "all"
+    ],
+    "locations": {
+      "includeLocations": [
+        "All"
+      ],
+      "excludeLocations": [
+        "AllTrusted"
+      ]
+    }
+  },
+  "grantControls": {
+    "operator": "OR",
+    "authenticationStrength": {
+      "id": "00000000-0000-0000-0000-000000000002"
+    }
+  }
+}
