@@ -10,7 +10,7 @@ Staged Conditional Access policies for Microsoft Entra ID, from a secure-by-defa
 | **2 · Enhanced** | MFA everywhere, trusted devices for admins, risk-based responses, token theft paths closed | CA201-CA210 | [baseline-level-2.md](baseline-level-2.md) |
 | **3 · Zero Trust** | Phishing-resistant admins, managed devices for all members, strict risk and session controls, workload identities | CA301-CA306 | [baseline-level-3.md](baseline-level-3.md) |
 
-Levels are cumulative. Policies of lower levels stay active: Conditional Access requires *all* applicable policies to be satisfied, so the stricter policy of a higher level always wins. The full comparison is in the [policy matrix](policy-matrix.md).
+Levels are cumulative. Policies of lower levels stay active: Conditional Access requires *all* applicable policies to be satisfied, so the stricter policy of a higher level always wins. The full comparison is in the [policy matrix](policy-matrix.md). Which attack each policy stops, mapped to MITRE ATT&CK, is in the [threat coverage](threat-coverage.md).
 
 ## Design principles
 
@@ -89,6 +89,7 @@ conditional-access/
   baseline-level-2.md       Level 2 policies explained
   baseline-level-3.md       Level 3 policies explained
   policy-matrix.md          Comparison across levels
+  threat-coverage.md        Attacks per policy (MITRE ATT&CK) and matching detections
   policies/
     level-1/*.json          Graph v1.0 conditionalAccessPolicy bodies
     level-2/*.json

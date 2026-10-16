@@ -16,7 +16,7 @@ Most Entra ID tenants do not lack features. They lack a sequence: which control 
 
 | Area | Content |
 |---|---|
-| [**Conditional Access baselines**](identity-baselines/conditional-access/README.md) | 21 policies in three levels, each documented and available as a Graph-ready JSON template. Report-only by default, break-glass exclusion built in, naming convention, [policy matrix](identity-baselines/conditional-access/policy-matrix.md) |
+| [**Conditional Access baselines**](identity-baselines/conditional-access/README.md) | 21 policies in three levels, each documented and available as a Graph-ready JSON template. Report-only by default, break-glass exclusion built in, naming convention, [policy matrix](identity-baselines/conditional-access/policy-matrix.md), [threat coverage](identity-baselines/conditional-access/threat-coverage.md) mapped to MITRE ATT&CK |
 | [**Identity security controls**](identity-baselines/security-controls/README.md) | Break-glass accounts, PIM, authentication methods and passwordless, application consent, credential hygiene, logging and KQL detections |
 | [**Identity governance**](identity-baselines/governance/README.md) | Joiner-mover-leaver, access packages, access reviews, separation of duties, governance of non-human identities and AI agents |
 | [**Scripts**](scripts) | `Import-ConditionalAccessBaseline.ps1` creates the policies in report-only mode; `Export-ConditionalAccessPolicy.ps1` backs up and documents existing policies; `Compare-ConditionalAccessBaseline.ps1` reports drift between the tenant and the baseline |
@@ -109,6 +109,7 @@ tests/                    Pester tests for templates and scripts
 
 ## Related repositories
 
+- [identity-threat-detections](https://github.com/spoke1/identity-threat-detections): Microsoft Sentinel analytics rules for the attacks these baselines do not stop, and for attempts to weaken them
 - [hybrid-workplace-automation](https://github.com/spoke1/hybrid-workplace-automation): read-only PowerShell tooling for AD, Entra ID and Intune, including Conditional Access insights from the sign-in logs
 - [zero-trust-iac](https://github.com/spoke1/zero-trust-iac): Bicep foundation for security logging, Defender for Cloud and guardrails in Azure
 

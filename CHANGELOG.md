@@ -8,6 +8,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - `scripts/Compare-ConditionalAccessBaseline.ps1`: read-only drift report. Matches tenant policies to the baseline templates by name and reports missing policies, changed settings, added conditions, additional exclusions per excluded object and a missing break-glass exclusion. The policy state is reported, not treated as drift. Writes `Drift.csv` and `Summary.md`.
 - Pester tests for the drift comparison against simulated Graph responses.
+- `identity-baselines/conditional-access/threat-coverage.md`: the attacks each policy stops, mapped to MITRE ATT&CK, the attacks Conditional Access does not stop, and the matching detections in identity-threat-detections.
 
 ## [2.0.0] - 2026-09-26
 
