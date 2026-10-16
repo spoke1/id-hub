@@ -127,3 +127,132 @@ Describe 'Export-ConditionalAccessPolicy.ps1' {
         Get-SafeFileName -Name 'CA101: Block/legacy' | Should -Not -Match '[/:]'
     }
 }
+
+Describe 'Compare-ConditionalAccessBaseline.ps1' {
+    BeforeAll {
+        $scriptPath = Join-Path -Path $PSScriptRoot -ChildPath '../scripts/Compare-ConditionalAccessBaseline.ps1'
+        $templateRoot = Join-Path -Path $PSScriptRoot -ChildPath '../identity-baselines/conditional-access/policies'
+        $groupId = [guid]::NewGuid().ToString()
+        # Mandatory parameters are bound, then the script returns after loading its functions.
+        . $scriptPath -BreakGlassGroupId $groupId
+
+        $templates = @(Get-BaselineTemplate -Path $templateRoot -Level 1, 2, 3 | ForEach-Object {
+                ConvertTo-TemplatePolicy -TemplateJson (Get-Content -LiteralPath $_.FullName -Raw) -BreakGlassGroupId $groupId
+            })
+
+        # Simulates a policy as Graph returns it: same settings plus id, timestamps, nulls and defaults.
+        function ConvertTo-GraphPolicy {
+            param([object]$Template, [string]$State = 'enabled')
+            $policy = $Template | ConvertTo-Json -Depth 20 | ConvertFrom-Json
+            $policy.state = $State
+            $policy | Add-Member -NotePropertyName id -NotePropertyValue ([guid]::NewGuid().ToString())
+            $policy | Add-Member -NotePropertyName createdDateTime -NotePropertyValue '2026-01-01T00:00:00Z'
+            $policy | Add-Member -NotePropertyName templateId -NotePropertyValue $null
+            # Graph returns unset properties as null or empty arrays.
+            foreach ($name in 'signInRiskLevels', 'userRiskLevels', 'platforms', 'locations', 'devices') {
+                if (-not $policy.conditions.PSObject.Properties[$name]) {
+                    $empty = if ($name -like '*RiskLevels') { @() } else { $null }
+                    $policy.conditions | Add-Member -NotePropertyName $name -NotePropertyValue $empty
+                }
+            }
+            if (-not $policy.conditions.users.PSObject.Properties['includeGroups']) {
+                $policy.conditions.users | Add-Member -NotePropertyName includeGroups -NotePropertyValue @()
+            }
+            if ($policy.grantControls) {
+                $policy.grantControls | Add-Member -NotePropertyName termsOfUse -NotePropertyValue @() -Force
+                if ($policy.grantControls.authenticationStrength) {
+                    $policy.grantControls.authenticationStrength | Add-Member -NotePropertyName displayName -NotePropertyValue 'Multifactor authentication' -Force
+                    $policy.grantControls.authenticationStrength | Add-Member -NotePropertyName allowedCombinations -NotePropertyValue @('password,microsoftAuthenticatorPush') -Force
+                }
+            }
+            if ($policy.sessionControls) {
+                $policy.sessionControls | Add-Member -NotePropertyName disableResilienceDefaults -NotePropertyValue $false -Force
+                if ($policy.sessionControls.signInFrequency -and -not $policy.sessionControls.signInFrequency.authenticationType) {
+                    $policy.sessionControls.signInFrequency | Add-Member -NotePropertyName authenticationType -NotePropertyValue 'primaryAndSecondaryAuthentication'
+                }
+            }
+            $policy
+        }
+    }
+
+    It 'reports every template as matching when the tenant equals the baseline' {
+        $tenant = @($templates | ForEach-Object { ConvertTo-GraphPolicy -Template $_ })
+        $result = Compare-ConditionalAccessPolicySet -TemplatePolicy $templates -TenantPolicy $tenant -BreakGlassGroupId $groupId
+        @($result.Results | Where-Object Status -NE 'Match').Policy | Should -BeNullOrEmpty
+        $result.NotInBaseline | Should -BeNullOrEmpty
+    }
+
+    It 'reports the policy state without treating it as drift' {
+        $tenant = @(ConvertTo-GraphPolicy -Template $templates[0] -State 'enabledForReportingButNotEnforced')
+        $result = Compare-ConditionalAccessPolicySet -TemplatePolicy @($templates[0]) -TenantPolicy $tenant -BreakGlassGroupId $groupId
+        $result.Results[0].Status | Should -Be 'Match'
+        $result.Results[0].State | Should -Be 'enabledForReportingButNotEnforced'
+    }
+
+    It 'reports missing policies and tenant policies outside the baseline' {
+        $other = [PSCustomObject]@{ displayName = 'Custom - Block country'; state = 'enabled'; conditions = [PSCustomObject]@{} }
+        $result = Compare-ConditionalAccessPolicySet -TemplatePolicy @($templates[0]) -TenantPolicy @($other) -BreakGlassGroupId $groupId
+        $result.Results[0].Status | Should -Be 'Missing'
+        $result.NotInBaseline.displayName | Should -Be 'Custom - Block country'
+    }
+
+    It 'matches display names case-insensitively' {
+        $tenant = ConvertTo-GraphPolicy -Template $templates[0]
+        $tenant.displayName = $tenant.displayName.ToUpperInvariant()
+        (Compare-ConditionalAccessPolicySet -TemplatePolicy @($templates[0]) -TenantPolicy @($tenant) -BreakGlassGroupId $groupId).Results[0].Status | Should -Be 'Match'
+    }
+
+    It 'reports additional exclusions per excluded object' {
+        $tenant = ConvertTo-GraphPolicy -Template $templates[0]
+        $tenant.conditions.users | Add-Member -NotePropertyName excludeUsers -NotePropertyValue @('user-1', 'user-2') -Force
+        $tenant.conditions.users.excludeGroups = @($groupId, 'group-3')
+        $result = Compare-ConditionalAccessPolicySet -TemplatePolicy @($templates[0]) -TenantPolicy @($tenant) -BreakGlassGroupId $groupId
+        $findings = $result.Results[0].Findings
+        $result.Results[0].Status | Should -Be 'Drift'
+        @($findings | Where-Object Finding -EQ 'ExtraExclusion').Actual | Sort-Object | Should -Be @('group-3', 'user-1', 'user-2')
+    }
+
+    It 'reports a missing break-glass exclusion' {
+        $tenant = ConvertTo-GraphPolicy -Template $templates[0]
+        $tenant.conditions.users.excludeGroups = @()
+        $findings = (Compare-ConditionalAccessPolicySet -TemplatePolicy @($templates[0]) -TenantPolicy @($tenant) -BreakGlassGroupId $groupId).Results[0].Findings
+        $findings.Finding | Should -Contain 'BreakGlassNotExcluded'
+    }
+
+    It 'reports changed and removed settings' {
+        $template = $templates | Where-Object displayName -Like 'CA207*'
+        $tenant = ConvertTo-GraphPolicy -Template $template
+        $tenant.sessionControls.signInFrequency.value = 24
+        $tenant.sessionControls.persistentBrowser = $null
+        $findings = (Compare-ConditionalAccessPolicySet -TemplatePolicy @($template) -TenantPolicy @($tenant) -BreakGlassGroupId $groupId).Results[0].Findings
+        $changed = @($findings | Where-Object Finding -EQ 'Changed')
+        ($changed | Where-Object Path -EQ 'sessionControls.signInFrequency.value').Actual | Should -Be '24'
+        ($changed | Where-Object Path -EQ 'sessionControls.persistentBrowser.mode').Actual | Should -Be '(not set)'
+    }
+
+    It 'reports added conditions but ignores false switches and Graph defaults' {
+        $template = $templates | Where-Object displayName -Like 'CA101*'
+        $tenant = ConvertTo-GraphPolicy -Template $template
+        $tenant.conditions | Add-Member -NotePropertyName locations -NotePropertyValue ([PSCustomObject]@{ includeLocations = @('AllTrusted') }) -Force
+        $findings = @((Compare-ConditionalAccessPolicySet -TemplatePolicy @($template) -TenantPolicy @($tenant) -BreakGlassGroupId $groupId).Results[0].Findings)
+        $findings | Should -HaveCount 1
+        $findings[0].Finding | Should -Be 'AddedSetting'
+        $findings[0].Path | Should -Be 'conditions.locations.includeLocations'
+    }
+
+    It 'compares arrays as sets' {
+        $flatA = ConvertTo-FlatPolicy -Policy ([PSCustomObject]@{ conditions = [PSCustomObject]@{ clientAppTypes = @('exchangeActiveSync', 'other') } })
+        $flatB = ConvertTo-FlatPolicy -Policy ([PSCustomObject]@{ conditions = [PSCustomObject]@{ clientAppTypes = @('other', 'exchangeActiveSync') } })
+        @(Compare-PolicyToTemplate -Template $flatA -Tenant $flatB -BreakGlassGroupId $groupId) | Should -HaveCount 0
+    }
+
+    It 'renders a summary with status counts and findings' {
+        $tenant = ConvertTo-GraphPolicy -Template $templates[0]
+        $tenant.conditions.users | Add-Member -NotePropertyName excludeUsers -NotePropertyValue @('user-1') -Force
+        $result = Compare-ConditionalAccessPolicySet -TemplatePolicy @($templates[0], $templates[1]) -TenantPolicy @($tenant) -BreakGlassGroupId $groupId
+        $summary = Format-DriftSummary -Comparison $result
+        $summary | Should -Match 'match 0 · drift 1 · missing 1'
+        $summary | Should -Match 'ExtraExclusion \(1\)'
+        $summary | Should -Match '`conditions.users.excludeUsers`'
+    }
+}

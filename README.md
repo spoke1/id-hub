@@ -19,7 +19,7 @@ Most Entra ID tenants do not lack features. They lack a sequence: which control 
 | [**Conditional Access baselines**](identity-baselines/conditional-access/README.md) | 21 policies in three levels, each documented and available as a Graph-ready JSON template. Report-only by default, break-glass exclusion built in, naming convention, [policy matrix](identity-baselines/conditional-access/policy-matrix.md) |
 | [**Identity security controls**](identity-baselines/security-controls/README.md) | Break-glass accounts, PIM, authentication methods and passwordless, application consent, credential hygiene, logging and KQL detections |
 | [**Identity governance**](identity-baselines/governance/README.md) | Joiner-mover-leaver, access packages, access reviews, separation of duties, governance of non-human identities and AI agents |
-| [**Scripts**](scripts) | `Import-ConditionalAccessBaseline.ps1` creates the policies in report-only mode; `Export-ConditionalAccessPolicy.ps1` backs up and documents existing policies |
+| [**Scripts**](scripts) | `Import-ConditionalAccessBaseline.ps1` creates the policies in report-only mode; `Export-ConditionalAccessPolicy.ps1` backs up and documents existing policies; `Compare-ConditionalAccessBaseline.ps1` reports drift between the tenant and the baseline |
 
 ## Maturity model
 
@@ -50,6 +50,13 @@ cd id-hub
 ```
 
 Then let the policies run in report-only mode for one to two weeks, measure the impact per policy (for example with `Get-ConditionalAccessInsights.ps1` from [hybrid-workplace-automation](https://github.com/spoke1/hybrid-workplace-automation)) and switch them on one by one. The import script cannot enable policies; that step is always deliberate.
+
+Once the baseline is in place, check regularly that nobody has weakened it:
+
+```powershell
+# Missing policies, changed settings and additional exclusions compared with Level 1-3
+.\scripts\Compare-ConditionalAccessBaseline.ps1 -BreakGlassGroupId '<group-object-id>'
+```
 
 ## Design principles
 
@@ -87,6 +94,7 @@ identity-baselines/
 scripts/
   Import-ConditionalAccessBaseline.ps1
   Export-ConditionalAccessPolicy.ps1
+  Compare-ConditionalAccessBaseline.ps1
 tests/                    Pester tests for templates and scripts
 .github/workflows/ci.yml  Pester, PSScriptAnalyzer, gitleaks
 ```
@@ -97,7 +105,7 @@ tests/                    Pester tests for templates and scripts
 - [x] Identity security controls and governance baselines
 - [ ] Authentication methods policy as code (export and baseline comparison)
 - [ ] PIM role settings baseline as code
-- [ ] Drift report: tenant policies compared with the baseline templates
+- [x] Drift report: tenant policies compared with the baseline templates
 
 ## Related repositories
 
